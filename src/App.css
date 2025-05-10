@@ -1,0 +1,337 @@
+#root {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+/* App container takes full screen */
+.app-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #A67C52, #D4B996); /* Brown background gradient */
+}
+
+/* Header styles */
+.header {
+  padding: 1.5rem;
+  background-color: rgba(244, 235, 225, 0.8);
+  z-index: 10;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.header h1 {
+  color: #4a89dc;
+  margin: 0;
+  font-size: 2.5rem;
+  text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
+}
+
+/* Wish list container styles - full screen */
+.wish-list-container {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #A67C52, #D4B996); /* Brown background gradient */
+}
+
+/* Loading and empty state containers */
+.loading-container, 
+.no-wishes-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+/* Balloon styles - Both static and moving */
+.balloon,
+.balloon-moving {
+  position: relative;
+  padding: 2rem;
+  /* max-width: 220px; */
+  text-align: left;
+  border: none;
+  transition: transform 0.2s ease;
+  border-radius: 15px; /* Use border-radius instead of clip-path for content visibility */
+  filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.15));
+  z-index: 1;
+  /* Background color is now set via inline style */
+}
+
+/* Add heart shape as a pseudo-element background */
+.balloon::before,
+.balloon-moving::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Use the same background color as parent */
+  background-color: inherit;
+  z-index: -1;
+  border-radius: 15px;
+  transform: scale(1.1);
+}
+
+/* Remove cloud part classes */
+.cloud-part {
+  display: none !important;
+}
+
+/* Specifically for balloons moved by JavaScript */
+.balloon-moving {
+  color: black;
+  will-change: transform, left, top;
+  position: absolute;
+  z-index: 5;
+  cursor: pointer;
+}
+
+/* Balloon hover effect */
+.balloon-moving:hover {
+  transform: translateY(-5px) scale(1.05);
+  filter: drop-shadow(0px 8px 15px rgba(0, 0, 0, 0.25));
+  z-index: 10;
+}
+
+.balloon strong,
+.balloon-moving strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: black;
+  /* text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3); */
+}
+
+.balloon p,
+.balloon-moving p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: black;
+  /* text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2); */
+}
+
+/* Keep old animations for reference or fallback */
+@keyframes float-right {
+  0% {
+    transform: translateX(-100%) translateY(0);
+  }
+  50% {
+    transform: translateX(50vw) translateY(-20px);
+  }
+  100% {
+    transform: translateX(100vw) translateY(0);
+  }
+}
+
+@keyframes float-left {
+  0% {
+    transform: translateX(100vw) translateY(0);
+  }
+  50% {
+    transform: translateX(50vw) translateY(-30px);
+  }
+  100% {
+    transform: translateX(-100%) translateY(0);
+  }
+}
+
+@keyframes float-up-right {
+  0% {
+    transform: translateX(0) translateY(100vh);
+  }
+  100% {
+    transform: translateX(50vw) translateY(-100%);
+  }
+}
+
+@keyframes float-up-left {
+  0% {
+    transform: translateX(100vw) translateY(100vh);
+  }
+  100% {
+    transform: translateX(0) translateY(-100%);
+  }
+}
+
+/* Plus button to add new wish */
+.add-wish-button {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #4a89dc;
+  color: white;
+  font-size: 2rem;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  z-index: 100;
+}
+
+.add-wish-button:hover {
+  background-color: #3a6ebb;
+  transform: scale(1.05);
+}
+
+.add-wish-button:active {
+  transform: scale(0.95);
+}
+
+/* Modal styles */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+}
+
+.modal-container {
+  background-color: #ffd1dc; /* Changed to pastel pink from bright pink */
+  border-radius: 15px;
+  padding: 2.5rem;
+  width: 90%;
+  max-width: 500px;
+  filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.15));
+  animation: modal-fade-in 0.3s ease;
+  position: relative;
+  border: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  /* Remove clip-path that was hiding the form content */
+}
+
+/* Add heart decorations to the modal */
+.modal-container::before {
+  content: "❤️";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 24px;
+}
+
+.modal-container::after {
+  content: "❤️";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+}
+
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-container h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #5a287d; /* Changed from white to a deep purple for better contrast */
+  text-align: center;
+  font-weight: 600;
+  text-shadow: none; /* Removed text shadow for cleaner look */
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  background-color: white;
+  border-radius: 6px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  text-align: left;
+  color: #5a287d;
+}
+
+.form-group input,
+.form-group textarea {
+  color: black;
+  width: 90%;
+  padding: 0.75rem;
+  border: 1px solid #c4a7e7;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: inherit;
+  background-color: #fdfaff;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #9c6ade;
+  box-shadow: 0 0 0 2px rgba(156, 106, 222, 0.2);
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.form-actions button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.form-actions button:first-child {
+  background-color: #e4d7f2;
+  color: #5a287d;
+}
+
+.form-actions button:first-child:hover {
+  background-color: #d5c1e7;
+}
+
+.form-actions button:last-child {
+  background-color: #9c6ade;
+  color: white;
+}
+
+.form-actions button:last-child:hover {
+  background-color: #7941c9;
+}
+
+.form-actions button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

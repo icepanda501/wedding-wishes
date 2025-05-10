@@ -11,6 +11,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { getRandomPastelColor, getRandomPosition, getRandomSpeed } from "./utils/randomUtils";
 import type { BalloonPosition, WishMessage } from "./App.type";
 import RandomResultModal from "./components/RandomResultModal";
+import QRCodeFloater from "./components/QRCodeFloater";
 
 function App() {
   const [wishMessages, setWishMessages] = useState<WishMessage[]>([]);
@@ -205,6 +206,7 @@ function App() {
 
   return (
     <div className="app-container">
+      <QRCodeFloater />
       <div className="header">
         <h1>Wedding Wishes</h1>
         {/* Plus Button */}
@@ -215,7 +217,6 @@ function App() {
         >
           + Add a Wish
         </button>
-        {/* <img src="domain-qr.jpeg" alt="QR Code" /> */}
         <img src="/dice-svgrepo-com.svg" alt="Dice Logo" className="dice-logo" onClick={() => setIsRandomModalOpen(true)}/>
         <ToastContainer />
       </div>

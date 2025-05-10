@@ -16,7 +16,6 @@ import {
 import type { BalloonPosition, WishMessage } from "./App.type";
 import RandomResultModal from "./components/RandomResultModal";
 import QRCodeFloater from "./components/QRCodeFloater";
-import { faker } from "@faker-js/faker";
 
 function App() {
   const [wishMessages, setWishMessages] = useState<WishMessage[]>([]);

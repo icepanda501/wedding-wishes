@@ -48,6 +48,11 @@ h1 {
   margin: 0;
 }
 
+.caution-message{
+  color: red !important;
+  font-size: 0.7em;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;

@@ -7,6 +7,7 @@ import {
   addDoc,
   serverTimestamp,
 } from "firebase/firestore";
+import { toast, ToastContainer } from "react-toastify";
 
 interface WishMessage {
   id: string;
@@ -59,6 +60,8 @@ function App() {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const notify = () => toast("ขอบคุณมากๆ นะครับ :D");
 
   // Fetch wish messages from database
   useEffect(() => {
@@ -181,6 +184,7 @@ function App() {
 
   // Handle form submission
   const handleSubmit = async (e: FormEvent) => {
+    notify();
     e.preventDefault();
 
     if (!name.trim() || !message.trim()) {
@@ -225,7 +229,7 @@ function App() {
       // Reset form and close modal
       setName("");
       setMessage("");
-      setIsModalOpen(false);
+      // setIsModalOpen(false);
     } catch (error) {
       console.error("Error adding wish:", error);
       alert("Failed to add your wish. Please try again.");
@@ -238,6 +242,7 @@ function App() {
     <div className="app-container">
       <div className="header">
         <h1>Wedding Wishes</h1>
+        <ToastContainer />
       </div>
 
       <div className="wish-list-container" ref={containerRef}>
@@ -294,6 +299,10 @@ function App() {
                 </div>
                 <div className="form-group">
                   <label htmlFor="message">Your Message:</label>
+                  <label className="caution-message" htmlFor="message">
+                    ขอร้องนะครับ อย่า DDOS, อย่า Injection, อย่าโจมตีทาง Cyber
+                    ใดๆ เว็บไม่มี Security ครับ ทำไม่ทัน T^T
+                  </label>
                   <textarea
                     id="message"
                     value={message}

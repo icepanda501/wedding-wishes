@@ -168,12 +168,12 @@
 
 /* Plus button to add new wish */
 .add-wish-button {
-  width: 60px;
-  height: 60px;
+  /* height: 60px; */
+  /* width: 60px; */
   /* border-radius: 50%; */
   background-color: #FDDCF7;
   color: #b6986f;
-  font-size: 3rem;
+  font-size: 1.5rem;
   border: none;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   cursor: pointer;
@@ -237,6 +237,13 @@
   top: 10px;
   right: 10px;
   font-size: 24px;
+}
+
+.modal-button-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
 }
 
 @keyframes modal-fade-in {
@@ -335,4 +342,9 @@
 .form-actions button:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+}
+
+.winner-text {
+  color: #5a287d;
+  font-weight: bold;
 }

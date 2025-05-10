@@ -8,45 +8,9 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { toast, ToastContainer } from "react-toastify";
-
-interface WishMessage {
-  id: string;
-  name?: string;
-  message?: string;
-  timestamp?: string;
-  color?: string; // Add color property to WishMessage interface
-}
-
-interface BalloonPosition {
-  x: number;
-  y: number;
-  speedX: number;
-  speedY: number;
-}
-
-function getRandomSpeed() {
-  // Random speed between -0.75 and 0.75, never 0
-  const speed = Math.random() * 0.015 + 0.15;
-  return Math.random() > 0.5 ? speed : -speed;
-}
-
-function getRandomPosition(containerWidth: number, containerHeight: number) {
-  return {
-    x: Math.random() * (containerWidth - 220), // Account for balloon width
-    y: Math.random() * (containerHeight - 100), // Account for balloon height
-    speedX: getRandomSpeed(),
-    speedY: getRandomSpeed(),
-  };
-}
-
-// Function to generate random pastel colors
-function getRandomPastelColor() {
-  // For pastel colors, we use higher base values (180-255)
-  const r = Math.floor(Math.random() * 55 + 200);
-  const g = Math.floor(Math.random() * 55 + 200);
-  const b = Math.floor(Math.random() * 55 + 200);
-  return `rgb(${r}, ${g}, ${b})`;
-}
+import { getRandomPastelColor, getRandomPosition, getRandomSpeed } from "./utils/randomUtils";
+import type { BalloonPosition, WishMessage } from "./App.type";
+import RandomResultModal from "./components/RandomResultModal";
 
 function App() {
   const [wishMessages, setWishMessages] = useState<WishMessage[]>([]);
@@ -57,6 +21,7 @@ function App() {
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRandomModalOpen, setIsRandomModalOpen] = useState(false);
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -248,8 +213,10 @@ function App() {
           onClick={() => setIsModalOpen(true)}
           aria-label="Add a wish"
         >
-          +
+          + Add a Wish
         </button>
+        {/* <img src="domain-qr.jpeg" alt="QR Code" /> */}
+        <img src="/dice-svgrepo-com.svg" alt="Dice Logo" className="dice-logo" onClick={() => setIsRandomModalOpen(true)}/>
         <ToastContainer />
       </div>
 
@@ -278,6 +245,16 @@ function App() {
             <p>No wishes found.</p>
           </div>
         )}
+
+        {
+          /* Random Modal Button */
+          isRandomModalOpen && (
+            <RandomResultModal
+              wishMessages={wishMessages}
+              cancelCallback={() => setIsRandomModalOpen(false)}
+            />
+          )
+        }
 
         {/* Modal Form */}
         {isModalOpen && (

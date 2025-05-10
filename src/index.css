@@ -53,6 +53,17 @@ h1 {
   font-size: 0.7em;
 }
 
+.dice-logo {
+  margin-left: 1em;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+}
+.dice-logo:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -72,6 +83,12 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.header > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     color: rgba(255, 255, 255, 0.87);
@@ -83,4 +100,8 @@ button:focus-visible {
   button {
     background-color: #1a1a1a;
   }
+}
+
+.balloon-moving {
+  user-select: none;
 }

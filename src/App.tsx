@@ -229,7 +229,7 @@ function App() {
       // Reset form and close modal
       setName("");
       setMessage("");
-      // setIsModalOpen(false);
+      setIsModalOpen(false);
     } catch (error) {
       console.error("Error adding wish:", error);
       alert("Failed to add your wish. Please try again.");
@@ -242,6 +242,14 @@ function App() {
     <div className="app-container">
       <div className="header">
         <h1>Wedding Wishes</h1>
+        {/* Plus Button */}
+        <button
+          className="add-wish-button"
+          onClick={() => setIsModalOpen(true)}
+          aria-label="Add a wish"
+        >
+          +
+        </button>
         <ToastContainer />
       </div>
 
@@ -271,15 +279,6 @@ function App() {
           </div>
         )}
 
-        {/* Plus Button */}
-        <button
-          className="add-wish-button"
-          onClick={() => setIsModalOpen(true)}
-          aria-label="Add a wish"
-        >
-          +
-        </button>
-
         {/* Modal Form */}
         {isModalOpen && (
           <div className="modal-backdrop">
@@ -295,6 +294,8 @@ function App() {
                     onChange={(e) => setName(e.target.value)}
                     required
                     disabled={isSubmitting}
+                    placeholder="Enter your nick name"
+                    autoComplete="off"
                   />
                 </div>
                 <div className="form-group">

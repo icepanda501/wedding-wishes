@@ -60,7 +60,7 @@
 .balloon-moving {
   position: relative;
   padding: 2rem;
-  /* max-width: 220px; */
+  max-width: 300px;
   text-align: left;
   border: none;
   transition: transform 0.2s ease;
@@ -346,5 +346,10 @@
 
 .winner-text {
   color: #5a287d;
+  font-weight: bold;
+}
+
+.random-animation{
+  font-size: 2em;
   font-weight: bold;
 }

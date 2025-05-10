@@ -8,13 +8,19 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { toast, ToastContainer } from "react-toastify";
-import { getRandomPastelColor, getRandomPosition, getRandomSpeed } from "./utils/randomUtils";
+import {
+  getRandomPastelColor,
+  getRandomPosition,
+  getRandomSpeed,
+} from "./utils/randomUtils";
 import type { BalloonPosition, WishMessage } from "./App.type";
 import RandomResultModal from "./components/RandomResultModal";
 import QRCodeFloater from "./components/QRCodeFloater";
+import { faker } from "@faker-js/faker";
 
 function App() {
   const [wishMessages, setWishMessages] = useState<WishMessage[]>([]);
+  const [allWishes, setAllWish] = useState<WishMessage[]>([]);
   const [loading, setLoading] = useState(true);
   const [balloonPositions, setBalloonPositions] = useState<
     Record<string, BalloonPosition>
@@ -36,22 +42,30 @@ function App() {
         const wishCollection = collection(db, "wish");
 
         // Import necessary functions from firebase/firestore
-        const { query, orderBy, limit } = await import("firebase/firestore");
+        const { query, orderBy } = await import("firebase/firestore");
 
-        // Create a query to get the last 100 wishes, ordered by timestamp
+        // Create a query to get all wishes, ordered by timestamp
         const wishQuery = query(
           wishCollection,
-          orderBy("timestamp", "desc"), // Order by timestamp in descending order (newest first)
-          limit(100)
+          orderBy("timestamp", "desc") // Order by timestamp in descending order (newest first)
         );
 
         const wishSnapshot = await getDocs(wishQuery);
-        const wishList = wishSnapshot.docs.map((doc) => ({
+
+        console.log("length of wishSnapshot:", wishSnapshot.docs.length);
+
+        const wishList = wishSnapshot.docs.slice(0, 100).map((doc) => ({
           id: doc.id,
           color: getRandomPastelColor(), // Assign random pastel color
           ...doc.data(),
         })) as WishMessage[];
 
+        const allWish = wishSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setAllWish(allWish);
         setWishMessages([...wishList]);
         setLoading(false);
       } catch (error) {
@@ -217,7 +231,12 @@ function App() {
         >
           + Add a Wish
         </button>
-        <img src="/dice-svgrepo-com.svg" alt="Dice Logo" className="dice-logo" onClick={() => setIsRandomModalOpen(true)}/>
+        <img
+          src="/dice-svgrepo-com.svg"
+          alt="Dice Logo"
+          className="dice-logo"
+          onClick={() => setIsRandomModalOpen(true)}
+        />
         <ToastContainer />
       </div>
 
@@ -251,7 +270,7 @@ function App() {
           /* Random Modal Button */
           isRandomModalOpen && (
             <RandomResultModal
-              wishMessages={wishMessages}
+              wishMessages={allWishes}
               cancelCallback={() => setIsRandomModalOpen(false)}
             />
           )

@@ -109,7 +109,7 @@ button:focus-visible {
 .qr-code-floater {
   position: absolute;
   bottom: 25px;
-  left: 25px;
+  right: 25px;
   z-index: 10000;
   padding: 1rem;
   background-color: white;

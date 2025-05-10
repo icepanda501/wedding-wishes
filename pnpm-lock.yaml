@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@faker-js/faker':
+        specifier: ^9.7.0
+        version: 9.7.0
       firebase:
         specifier: ^11.7.1
         version: 11.7.1
@@ -327,6 +330,10 @@ packages:
   '@eslint/plugin-kit@0.2.8':
     resolution: {integrity: sha512-ZAoA40rNMPwSm+AeHpCq8STiNAwzWLJuP8Xv4CHIc9wv/PSuExjMrmjfYNj682vW0OOiZ1HKxzvjQr9XZIisQA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@faker-js/faker@9.7.0':
+    resolution: {integrity: sha512-aozo5vqjCmDoXLNUJarFZx2IN/GgGaogY4TMJ6so/WLZOWpSV7fvj2dmrV6sEAnUm1O7aCrhTibjpzeDFgNqbg==}
+    engines: {node: '>=18.0.0', npm: '>=9.0.0'}
 
   '@firebase/analytics-compat@0.2.19':
     resolution: {integrity: sha512-l/PYILG9Tu4D5XtazqzvT5J6f7B/laqlaoSjiee6QdQkEg1kmMIeAaLKWGbf8tR/T3g6Lv3lx1AwJBuLhVaqTQ==}
@@ -1959,6 +1966,8 @@ snapshots:
     dependencies:
       '@eslint/core': 0.13.0
       levn: 0.4.1
+
+  '@faker-js/faker@9.7.0': {}
 
   '@firebase/analytics-compat@0.2.19(@firebase/app-compat@0.3.1)(@firebase/app@0.12.1)':
     dependencies:
